@@ -1,0 +1,21 @@
+### Test 1: Valid API Key (Expect 202 Accepted)
+POST http://localhost:8080/api/v1/errors
+Content-Type: application/json
+X-API-Key: test-api-key
+
+{
+  "message": "NullPointer Exception in PaymentService",
+  "serviceName": "payment-api"
+}
+
+###
+
+### Test 2: Invalid API Key (Expect 401 Unauthorized)
+POST http://localhost:8080/api/v1/errors
+Content-Type: application/json
+X-API-Key: wrong-random-key
+
+{
+  "message": "This should fail",
+  "serviceName": "hacker-api"
+}
