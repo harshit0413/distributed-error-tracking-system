@@ -22,4 +22,24 @@ public class GlobalExceptionHandler {
         // HTTP 401 (UNAUTHORIZED) return kar rahe hain
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Map<String, String>> handleRateLimitException(RuntimeException ex) {
+
+        // Agar error message mein "Rate limit" likha hai, toh 429 bhejenge
+        if (ex.getMessage() != null && ex.getMessage().contains("Rate limit")) {
+            Map<String, String> errorResponse = Map.of(
+                    "error", "Too Many Requests",
+                    "message", ex.getMessage()
+            );
+            return new ResponseEntity<>(errorResponse, HttpStatus.TOO_MANY_REQUESTS);
+        }
+
+        // Varna baaki kisi bhi unknown error ke liye generic 500 bhejenge
+        Map<String, String> genericError = Map.of(
+                "error", "Internal Server Error",
+                "message", "An unexpected error occurred"
+        );
+        return new ResponseEntity<>(genericError, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
