@@ -41,8 +41,7 @@ public class IngestionService {
         }
 
         // Agar 1 minute mein 100 se zyada errors aa gaye, toh block kar do
-        // Agar 1 minute mein 100 se zyada errors aa gaye, toh block kar do
-        if (currentCount != null && currentCount > 100) {
+        if (currentCount != null && currentCount > 1000) {
             // 1. Internal Logging (Sirf humein console mein dikhega)
             log.warn("Rate limit breached for tenantId: {}. Blocking request.", tenantId);
 
